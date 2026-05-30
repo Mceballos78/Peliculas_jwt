@@ -14,7 +14,7 @@ const verificarToken = (req, res, next) => {
 
         const tokenLimpio = token.replace('Bearer ', '');
 
-        const decoded = jwt.verify(tokenLimpio, 'secreto123');
+        const decoded = jwt.verify(tokenLimpio,process.env.JWT_SECRET);
 
         req.usuario = decoded;
 

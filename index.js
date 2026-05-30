@@ -17,7 +17,21 @@ app.use(express.json());
 // CONECTAR BASE DE DATOS
 // ======================
 
-await sequelize.sync();
+try {
+
+    await sequelize.authenticate();
+
+    console.log('Conexión con PostgreSQL establecida correctamente.');
+
+    await sequelize.sync();
+
+    console.log('Tablas sincronizadas correctamente.');
+
+} catch (error) {
+
+    console.error('Error al inicializar la base de datos:', error);
+
+}
 
 // ======================
 // CREAR USUARIO ADMIN
@@ -152,19 +166,15 @@ app.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-
-        {
-            id: user.id,
-            usuario: user.usuario
-        },
-
-        'secreto123',
-
-        {
-            expiresIn: '1h'
-        }
-
-    );
+    {
+        id: user.id,
+        usuario: user.usuario
+    },
+    process.env.JWT_SECRET,
+    {
+        expiresIn: '1h'
+    }
+);
 
     res.json({
         token
@@ -300,4 +310,8 @@ app.delete('/peliculas/:id', verificarToken, async (req, res) => {
 // SERVIDOR
 // ======================
 
-app.listen(process.env.PORT | 3001, () => console.log('API lista en http://localhost:3000'));
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`API lista en puerto ${PORT}`);
+});
