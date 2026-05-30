@@ -157,28 +157,27 @@ app.post('/login', async (req, res) => {
 
     const passwordValido = await bcrypt.compare(password, user.password);
 
-    if (!passwordValido) {
+if (!passwordValido) {
+    return res.status(401).json({
+        error: 'Contraseña incorrecta'
+    });
+}
 
-        return res.status(401).json({
-            error: 'Contraseña incorrecta'
-        });
-
-    }
-
-    const token = jwt.sign(
+const token = jwt.sign(
     {
         id: user.id,
         usuario: user.usuario
     },
-    process.env.JWT_SECRET,
+    'Pelioulas_secret_2024',   // clave fija en el código
     {
-        expiresIn: '1h'
+        expiresIn: '8h'
     }
 );
 
-    res.json({
-        token
-    });
+res.json({
+    token
+});
+
 
 });
 
