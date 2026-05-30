@@ -168,7 +168,7 @@ const token = jwt.sign(
         id: user.id,
         usuario: user.usuario
     },
-    'Pelioulas_secret_2024',   // clave fija en el código
+    'secreto123',   // clave fija en el código
     {
         expiresIn: '8h'
     }
