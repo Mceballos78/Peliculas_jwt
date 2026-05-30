@@ -300,8 +300,4 @@ app.delete('/peliculas/:id', verificarToken, async (req, res) => {
 // SERVIDOR
 // ======================
 
-app.listen(3000, () => {
-
-    console.log('Servidor en http://localhost:3000');
-
-});
+app.listen(process.env.PORT | 3001, () => console.log('API lista en http://localhost:3000'));
